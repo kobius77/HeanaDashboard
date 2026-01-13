@@ -9,6 +9,12 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class EggStatsOverview extends BaseWidget
 {
+    protected int|string|array $columns = [
+        'default' => 1,
+        'sm' => 2,
+        'md' => 3,
+    ];
+
     protected function getStats(): array
     {
         $flockSize = 10; // As per your description
@@ -29,13 +35,13 @@ class EggStatsOverview extends BaseWidget
 
         return [
             Stat::make('Today\'s Eggs', $todayCount)
-                ->description($comparison . ' vs yesterday')
-                ->descriptionIcon('heroicon-m-arrow-trending-' . ($comparison >= 0 ? 'up' : 'down'))
+                ->description($comparison.' vs yesterday')
+                ->descriptionIcon('heroicon-m-arrow-trending-'.($comparison >= 0 ? 'up' : 'down'))
                 ->color($comparisonColor),
             Stat::make('7-Day Average', number_format($sevenDayAverage, 2))
                 ->description('Average eggs per day over the last week'),
-            Stat::make('Flock Efficiency', number_format($efficiency, 1) . '%')
-                ->description('Based on a 7-day average for ' . $flockSize . ' hens'),
+            Stat::make('Flock Efficiency', number_format($efficiency, 1).'%')
+                ->description('Based on a 7-day average for '.$flockSize.' hens'),
         ];
     }
 }
