@@ -12,6 +12,7 @@
     {{-- Cal-Heatmap scripts --}}
     <script type="text/javascript" src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
+    <script type="text/javascript" src="https://unpkg.com/@cal-heatmap/tooltip/dist/tooltip.min.js"></script>
     <script type="text/javascript" src="//unpkg.com/d3@7/dist/d3.min.js"></script>
 
     <script>

@@ -1,17 +1,24 @@
-// in app/Filament/Pages/Dashboard.php
-use App\Filament\Widgets\EggStatsOverview;
+<?php
+
+namespace App\Filament\Pages;
+
 use App\Filament\Widgets\DailyProductionChart;
-use App\Filament\Widgets\MonthlyComparisonChart;
 use App\Filament\Widgets\EggProductionHeatmap;
+use App\Filament\Widgets\EggStatsOverview;
+use App\Filament\Widgets\MonthlyComparisonChart;
+use Filament\Pages\Dashboard as BaseDashboard;
 
-// ... inside the Dashboard class
-
-public function getWidgets(): array
+class Dashboard extends BaseDashboard
 {
-    return [
-        EggStatsOverview::class,
-        DailyProductionChart::class,
-        MonthlyComparisonChart::class,
-        EggProductionHeatmap::class,
-    ];
+    protected static ?string $navigationIcon = 'heroicon-o-home';
+
+    public function getWidgets(): array
+    {
+        return [
+            EggStatsOverview::class,
+            DailyProductionChart::class,
+            MonthlyComparisonChart::class,
+            EggProductionHeatmap::class,
+        ];
+    }
 }
