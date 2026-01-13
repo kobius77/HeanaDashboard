@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Public;
+namespace App\Providers\Filament;
 
 use App\Filament\Public\Pages\Dashboard as PublicDashboard;
 use Filament\Http\Middleware\DisableBladeIconComponents;
