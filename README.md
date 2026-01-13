@@ -1,59 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🥚 HeanaDashboard
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+> **"Heana"** [Austrian dialect]: *Hens / Chickens.*
 
-## About Laravel
+Welcome to the mission-control center for our flock of ~10 ladies. Because why just *collect* eggs when you can **visualize** them in high-definition charts?
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚧 WIP Disclaimer
+**Current Status:** *Broken shells everywhere.*
+This project is actively being developed. Features may appear, disappear, or moult without warning. The code is currently cleaner than the coop, but that's a low bar.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ⚙️ The Architecture (The "Egg-Traction" Pipeline)
 
-## Learning Laravel
+We moved away from "Excel Engineering" to a proper stack. Here is the data journey:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1.  **The Input:** I walk into the coop, collect eggs, and send a single number (e.g., "8") to a **Telegram Bot**.
+2.  **The Middleware:** **n8n** catches the webhook, sanitizes the input, and executes an SQL `INSERT`.
+3.  **The Vault:** Data is stored in a local **MySQL/MariaDB** database (RIP Google Sheets).
+4.  **The Visuals:** **Laravel + FilamentPHP** read the data and render beautiful, reactive dashboards.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 💻 The Tech Stack
 
-## Laravel Sponsors
+* **Core:** [Laravel 11](https://laravel.com/) (PHP 8.3)
+* **UI/Dashboard:** [FilamentPHP v3](https://filamentphp.com/) (The real MVP here)
+* **Database:** MySQL
+* **Environment:** WSL / Ubuntu 24.04
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🚀 Getting Started (Dev)
 
-### Premium Partners
+If you want to run your own chicken analytics platform:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+1.  **Clone the repo:**
+    ```bash
+    git clone [https://github.com/kobius77/HeanaDashboard.git](https://github.com/kobius77/HeanaDashboard.git)
+    cd HeanaDashboard
+    ```
 
-## Contributing
+2.  **Install Dependencies:**
+    ```bash
+    # Note: We ignore security audits because we live on the edge (and dev tools are annoying)
+    composer install --no-audit
+    npm install && npm run build
+    ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3.  **Setup Environment:**
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    # Configure your DB credentials in .env
+    ```
 
-## Code of Conduct
+4.  **Migrate & Serve:**
+    ```bash
+    php artisan migrate
+    php artisan serve
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🔮 Roadmap / Wishlist
 
-## Security Vulnerabilities
+- [x] Basic daily logging
+- [ ] **Weather Overlay:** correlate production drops with rainy days.
+- [ ] **Feed Tracker:** Calculate the exact Cost-Per-Egg (CPE) so I can feel guilty about the expensive organic feed.
+- [ ] **Comparison Views:** "This week vs. same week last year."
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+*Made with ❤️ and 🌽 in Lower Austria.*
