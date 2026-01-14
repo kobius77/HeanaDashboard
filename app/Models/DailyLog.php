@@ -22,7 +22,6 @@ class DailyLog extends Model
      *
      * @var string|null
      */
-    const UPDATED_AT = null;
 
     /**
      * The attributes that are mass assignable.

@@ -3,6 +3,7 @@
 namespace App\Filament\Widgets;
 
 use App\Models\DailyLog;
+use App\Models\FlockRecord;
 use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -17,7 +18,7 @@ class EggStatsOverview extends BaseWidget
 
     protected function getStats(): array
     {
-        $flockSize = 10; // As per your description
+        $flockSize = FlockRecord::latest('record_date')->first()->ovulating_hens ?? 1;
 
         // Today vs Yesterday
         $todayCount = DailyLog::whereDate('log_date', Carbon::today())->value('egg_count') ?? 0;
@@ -41,7 +42,7 @@ class EggStatsOverview extends BaseWidget
             Stat::make('7-Day Average', number_format($sevenDayAverage, 2))
                 ->description('Average eggs per day over the last week'),
             Stat::make('Flock Efficiency', number_format($efficiency, 1).'%')
-                ->description('Based on a 7-day average for '.$flockSize.' hens'),
+                ->description('Based on '.$flockSize.' laying hens'),
         ];
     }
 }
