@@ -21,18 +21,11 @@ class DailyLogResource extends Resource
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('log_date')
-                    ->required(),
-                Forms\Components\TextInput::make('egg_count')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\DatePicker::make('log_date')
                     ->required()
                     ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('egg_count')
-                    ->required()
                     ->numeric()
-                    ->default(0),
+                    ->nullable(),
                 Forms\Components\Textarea::make('notes')
                     ->columnSpanFull(),
             ]);
