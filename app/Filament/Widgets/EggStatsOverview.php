@@ -34,7 +34,7 @@ class EggStatsOverview extends BaseWidget
         if ($todayCount === null) {
             $stats[] = Stat::make(
                 'Today\'s Eggs',
-                new HtmlString('<div style="font-size: 1.25rem; font-weight: 500;">Ovulation in progress<span class="animated-dots"><span></span><span></span><span></span></span></div>')
+                new HtmlString('<div style="font-size: 1.5rem; font-weight: 500;"><span class="animated-eggs"><span>🥚</span><span>🥚</span><span>🥚</span></span></div>')
             );
         } else {
             $yesterdayCount = DailyLog::whereDate('log_date', Carbon::yesterday())->value('egg_count') ?? 0;

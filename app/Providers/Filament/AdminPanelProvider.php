@@ -34,21 +34,17 @@ class AdminPanelProvider extends PanelProvider
             ->renderHook(
                 'panels::head.end',
                 fn (): string => Blade::render('<style>
-                    @keyframes pulse-dots {
-                        0%, 100% { opacity: 0.2; }
-                        20% { opacity: 1; }
+                    @keyframes pulse-eggs {
+                        0%, 100% { opacity: 0.3; }
+                        50% { opacity: 1; }
                     }
-                    .animated-dots span {
-                        animation: pulse-dots 1.4s infinite ease-in-out;
-                        border-radius: 9999px;
-                        background-color: currentColor;
-                        display: inline-block;
-                        height: 0.4rem;
-                        width: 0.4rem;
-                        margin-bottom: 0.1rem;
+                    .animated-eggs span {
+                        animation: pulse-eggs 1.5s infinite ease-in-out;
+                        padding-left: 0.1rem;
+                        padding-right: 0.1rem;
                     }
-                    .animated-dots span:nth-child(2) { animation-delay: 0.2s; }
-                    .animated-dots span:nth-child(3) { animation-delay: 0.4s; }
+                    .animated-eggs span:nth-child(2) { animation-delay: 0.25s; }
+                    .animated-eggs span:nth-child(3) { animation-delay: 0.5s; }
                 </style>'),
             )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
