@@ -4,17 +4,33 @@ namespace App\Filament\Widgets;
 
 use App\Models\DailyLog;
 use Carbon\Carbon;
+use Filament\Support\RawJs;
 use Filament\Widgets\ChartWidget;
 
 class DailyProductionChart extends ChartWidget
 {
-    protected static ?string $heading = 'Daily Egg Production (Last 30 Days)';
-    protected int | string | array $columnSpan = 'full';
+    protected static ?string $heading = 'Daily Egg Production';
+
+    public ?string $filter = '30';
+
+    protected int|string|array $columnSpan = 'full';
+
     protected static ?string $maxHeight = '300px';
+
+    protected function getFilters(): ?array
+    {
+        return [
+            '30' => 'Last 30 days',
+            '60' => 'Last 60 days',
+            '90' => 'Last 90 days',
+        ];
+    }
 
     protected function getData(): array
     {
-        $data = DailyLog::where('log_date', '>=', now()->subDays(30))
+        $days = (int) $this->filter;
+
+        $data = DailyLog::where('log_date', '>=', now()->subDays($days))
             ->orderBy('log_date')
             ->get();
 
@@ -23,6 +39,19 @@ class DailyProductionChart extends ChartWidget
                 [
                     'label' => 'Eggs Laid',
                     'data' => $data->map(fn ($log) => $log->egg_count),
+                    'backgroundColor' => '#FFAE42',
+                    'borderColor' => '#FFAE42', // Set borderColor to match backgroundColor for a solid fill
+                    'borderWidth' => 1,
+                ],
+                [
+                    'label' => 'Average',
+                    'data' => array_fill(0, $data->count(), round($data->avg('egg_count'), 2)),
+                    'borderColor' => '#FF0000', // Red color for average line
+                    'backgroundColor' => '#FF0000',
+                    'type' => 'line',
+                    'pointStyle' => 'dash',
+                    'pointRadius' => 0,
+                    'borderDash' => [5, 5],
                 ],
             ],
             'labels' => $data->map(fn ($log) => Carbon::parse($log->log_date)->format('M d')),
@@ -32,5 +61,21 @@ class DailyProductionChart extends ChartWidget
     protected function getType(): string
     {
         return 'bar';
+    }
+
+    protected function getOptions(): RawJs
+    {
+        return RawJs::make(<<<'JS'
+            {
+                scales: {
+                    y: {
+                        ticks: {
+                            stepSize: 1,
+                        },
+                        min: 0,
+                    },
+                },
+            }
+        JS);
     }
 }
