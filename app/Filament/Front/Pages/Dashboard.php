@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Public\Pages;
+namespace App\Filament\Front\Pages;
 
 use App\Models\WidgetSetting;
 use Filament\Pages\Dashboard as BaseDashboard;

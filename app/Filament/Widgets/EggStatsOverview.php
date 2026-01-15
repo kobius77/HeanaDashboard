@@ -7,7 +7,6 @@ use App\Models\FlockRecord;
 use Carbon\Carbon;
 use Filament\Widgets\StatsOverviewWidget as BaseWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
-use Illuminate\Support\HtmlString;
 
 class EggStatsOverview extends BaseWidget
 {
@@ -29,17 +28,11 @@ class EggStatsOverview extends BaseWidget
 
         $efficiency = $flockSize > 0 ? ($sevenDayAverage / $flockSize) * 100 : 0;
 
-        $stats = [
-            Stat::make('Laying Hens', $flockSize)
-                ->description('Currently active')
-                ->color('success'),
-        ];
+        $stats = [];
 
         if ($todayCount === null) {
-            $stats[] = Stat::make(
-                'Today\'s Eggs',
-                new HtmlString('<div style="font-size: 1.5rem; font-weight: 500;"><span class="animated-eggs"><span>🥚</span><span>🥚</span><span>🥚</span></span></div>')
-            );
+            $stats[] = Stat::make('Today\'s Eggs', '-')
+                ->description('Ovulation in progress...');
         } else {
             $yesterdayCount = DailyLog::whereDate('log_date', Carbon::yesterday())->value('egg_count') ?? 0;
             $comparison = $todayCount - $yesterdayCount;
@@ -52,9 +45,12 @@ class EggStatsOverview extends BaseWidget
         }
 
         $stats[] = Stat::make('7-Day Average', number_format($sevenDayAverage, 2))
-            ->description('Average eggs per day over the last week');
+            ->description('Eggs per day over the last week');
         $stats[] = Stat::make('Flock Efficiency', number_format($efficiency, 1).'%')
             ->description('Based on '.$flockSize.' laying hens');
+        $stats[] = Stat::make('Laying Hens', $flockSize)
+            ->description('Currently active')
+            ->color('success');
 
         return $stats;
     }
