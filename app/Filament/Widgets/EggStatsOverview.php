@@ -14,14 +14,14 @@ class EggStatsOverview extends BaseWidget
     protected static ?int $sort = -1;
 
     protected int|string|array $columns = [
-        'default' => 1,
-        'sm' => 2,
-        'md' => 3,
+        'default' => 2,
+        'md' => 4,
     ];
 
     protected function getStats(): array
     {
-        $flockSize = FlockRecord::latest('record_date')->first()?->ovulating_hens ?? 1;
+        $latestFlockRecord = FlockRecord::latest('record_date')->first();
+        $flockSize = $latestFlockRecord?->ovulating_hens ?? 1;
 
         $todayCount = DailyLog::whereDate('log_date', Carbon::today())->value('egg_count');
         $sevenDayAverage = DailyLog::where('log_date', '>=', Carbon::today()->subDays(7))
@@ -29,7 +29,11 @@ class EggStatsOverview extends BaseWidget
 
         $efficiency = $flockSize > 0 ? ($sevenDayAverage / $flockSize) * 100 : 0;
 
-        $stats = [];
+        $stats = [
+            Stat::make('Laying Hens', $flockSize)
+                ->description('Currently active')
+                ->color('success'),
+        ];
 
         if ($todayCount === null) {
             $stats[] = Stat::make(

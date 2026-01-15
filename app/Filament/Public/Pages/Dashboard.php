@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Filament\Public\Pages;
+
+use App\Models\WidgetSetting;
+use Filament\Pages\Dashboard as BaseDashboard;
+
+class Dashboard extends BaseDashboard
+{
+    public function getWidgets(): array
+    {
+        return WidgetSetting::where('is_published', true)
+            ->pluck('widget_class')
+            ->all();
+    }
+}
