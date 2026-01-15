@@ -50,7 +50,7 @@ class DailyProductionChart extends ChartWidget
                     'backgroundColor' => '#FF0000',
                     'type' => 'line',
                     'borderWidth' => 1.5, // Thinner line
-                    'pointStyle' => 'dash',
+                    'fill' => false,
                     'pointRadius' => 0,
                     'borderDash' => [10, 5], // Longer dashes
                 ],
@@ -74,27 +74,6 @@ class DailyProductionChart extends ChartWidget
                             stepSize: 1,
                         },
                         min: 0,
-                    },
-                },
-                plugins: {
-                    legend: {
-                        labels: {
-                            generateLabels: (chart) => {
-                                const original = Chart.defaults.plugins.legend.labels.generateLabels(chart);
-
-                                original.forEach((label) => {
-                                    if (label.text === 'Average') {
-                                        label.lineDash = [10, 5];
-                                        label.lineWidth = 1.5;
-                                        label.fillStyle = 'rgba(0,0,0,0)'; // Transparent fill
-                                        label.strokeStyle = '#FF0000'; // Red line color
-                                        label.pointStyle = 'line'; // Ensure it's rendered as a line
-                                    }
-                                });
-
-                                return original;
-                            },
-                        },
                     },
                 },
             }
