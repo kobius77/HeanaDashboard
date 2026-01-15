@@ -26,9 +26,6 @@
                     x: 'date',
                     y: 'value'
                 },
-                date: {
-                    start: new Date(new Date().setFullYear(new Date().getFullYear() - 1))
-                },
                 range: 12,
                 scale: {
                     color: {
