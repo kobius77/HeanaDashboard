@@ -13,8 +13,12 @@
     <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
     
-    <!-- Tooltip Plugin Dependencies (Popper.js) -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <!-- Dependencies -->
+    <script src="https://unpkg.com/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.11.10/dayjs.min.js"></script>
+    <script src="https://unpkg.com/dayjs@1.11.10/plugin/localizedFormat.js"></script>
+    
+    <!-- Tooltip Plugin -->
     <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
 </head>
 <body class="h-full font-sans antialiased text-gray-900">
@@ -48,6 +52,9 @@
     </div>
 
     <script>
+        // Initialize Dayjs localizedFormat
+        dayjs.extend(dayjs_plugin_localizedFormat);
+
         const heatmapData = @json($heatmapData);
 
         const cal = new CalHeatmap();
@@ -84,7 +91,7 @@
             },
         }, [
             [
-                CalHeatmap.Plugins.Tooltip,
+                window.Tooltip,
                 {
                     text: function(date, value, dayjsDate) {
                         return (value ? value + ' Eggs' : 'No data') + ' on ' + dayjsDate.format('LL');
