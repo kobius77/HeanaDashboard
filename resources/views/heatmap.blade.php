@@ -13,8 +13,9 @@
     <script src="https://unpkg.com/cal-heatmap/dist/cal-heatmap.min.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/cal-heatmap/dist/cal-heatmap.css">
     
-    <!-- Tooltip Plugin -->
-    <script src="https://unpkg.com/@cal-heatmap/tooltip/dist/cal-heatmap-tooltip.min.js"></script>
+    <!-- Tooltip Plugin Dependencies (Popper.js) -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
 </head>
 <body class="h-full font-sans antialiased text-gray-900">
     <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
@@ -83,7 +84,7 @@
             },
         }, [
             [
-                Tooltip,
+                CalHeatmap.Plugins.Tooltip,
                 {
                     text: function(date, value, dayjsDate) {
                         return (value ? value + ' Eggs' : 'No data') + ' on ' + dayjsDate.format('LL');
