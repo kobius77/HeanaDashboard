@@ -20,34 +20,20 @@
     
     <!-- Tooltip Plugin -->
     <script src="https://unpkg.com/cal-heatmap/dist/plugins/Tooltip.min.js"></script>
+    <script src="https://unpkg.com/cal-heatmap/dist/plugins/Legend.min.js"></script>
 </head>
-<body class="h-full font-sans antialiased text-gray-900">
-    <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
-        <div class="w-full max-w-6xl">
-            <header class="mb-10 text-center">
-                <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">
-                    Egg Production Heatmap
-                </h1>
-                <p class="mt-4 text-lg text-gray-500">
-                    Daily distribution of egg counts across the flock.
-                </p>
-            </header>
-
-            <main class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
+<body class="bg-white font-sans antialiased text-gray-900">
+    <div class="p-4 flex flex-col items-center">
+        <div class="w-full">
+            <main class="overflow-x-auto py-4">
                 <div id="cal-heatmap" class="mx-auto"></div>
                 
-                <div class="mt-8 flex items-center justify-center gap-4 text-sm text-gray-500">
+                <div class="mt-4 flex items-center justify-center gap-4 text-xs text-gray-400">
                     <span>Less Eggs</span>
                     <div id="legend" class="flex gap-1"></div>
                     <span>More Eggs</span>
                 </div>
             </main>
-
-            <footer class="mt-10 text-center text-sm text-gray-400">
-                <a href="{{ url('/') }}" class="hover:text-gray-600 transition-colors underline decoration-gray-300 underline-offset-4">
-                    Back to Dashboard
-                </a>
-            </footer>
         </div>
     </div>
 
@@ -66,10 +52,10 @@
                 y: 'value',
             },
             date: {
-                start: new Date(new Date().getFullYear(), 0, 1), // Start of current year
+                start: new Date("{{ $startDate }}"),
                 locale: { weekStart: 1 }, // Start on Monday
             },
-            range: 12,
+            range: {{ $range }},
             domain: {
                 type: 'month',
                 gutter: 15,
@@ -78,15 +64,15 @@
             subDomain: { 
                 type: 'ghDay', 
                 radius: 2, 
-                width: 15, 
-                height: 15, 
-                gutter: 4 
+                width: 12, 
+                height: 12, 
+                gutter: 3 
             },
             scale: {
                 color: {
                     type: 'threshold',
-                    range: ['#e5e7eb', '#bbf7d0', '#4ade80', '#16a34a', '#166534'],
-                    domain: [1, 5, 10, 20], // Adjust these thresholds based on typical egg counts
+                    range: ['#e5e7eb', '#bbf7d0', '#86efac', '#22c55e', '#166534'],
+                    domain: [1, 10, 20, 30],
                 },
             },
         }, [
@@ -98,6 +84,13 @@
                     },
                 },
             ],
+            [
+                window.Legend,
+                {
+                    itemSelector: '#legend',
+                    type: 'color',
+                }
+            ]
         ]);
     </script>
 </body>
