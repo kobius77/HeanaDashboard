@@ -31,8 +31,9 @@ class EggStatsOverview extends BaseWidget
         $stats = [];
 
         if ($todayCount === null) {
-            $stats[] = Stat::make('Today\'s Eggs', '-')
-                ->description('Ovulation in progress...');
+            $yesterdayCount = DailyLog::whereDate('log_date', Carbon::yesterday())->value('egg_count') ?? 0;
+            $stats[] = Stat::make('Yesterday\'s Eggs', $yesterdayCount)
+                ->description('Still ovulating today..');
         } else {
             $yesterdayCount = DailyLog::whereDate('log_date', Carbon::yesterday())->value('egg_count') ?? 0;
             $comparison = $todayCount - $yesterdayCount;

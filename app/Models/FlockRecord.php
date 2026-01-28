@@ -14,6 +14,8 @@ class FlockRecord extends Model
         'ovulating_hens',
         'henopaused_hens',
         'cock',
+        'chicklets',
+        'notes',
     ];
 
     protected $casts = [

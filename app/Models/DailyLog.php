@@ -33,6 +33,7 @@ class DailyLog extends Model
         'egg_count',
         'notes',
         'weather_temp_c',
+        'created_by',
     ];
 
     /**
@@ -43,4 +44,9 @@ class DailyLog extends Model
     protected $casts = [
         'log_date' => 'date',
     ];
+
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

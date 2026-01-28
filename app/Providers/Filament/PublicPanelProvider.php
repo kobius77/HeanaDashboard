@@ -8,6 +8,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -40,6 +41,20 @@ class PublicPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([]);
+            ->authMiddleware([])
+            ->renderHook(
+                PanelsRenderHook::BODY_START,
+                fn () => <<<'HTML'
+                    <style>
+                        .fi-sidebar, .fi-topbar {
+                            display: none !important;
+                        }
+                        .fi-main {
+                            padding-top: 0 !important;
+                            padding-left: 0 !important;
+                        }
+                    </style>
+                HTML
+            );
     }
 }

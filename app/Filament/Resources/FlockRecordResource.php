@@ -6,6 +6,8 @@ use App\Filament\Resources\FlockRecordResource\Pages;
 use App\Models\FlockRecord;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -20,9 +22,14 @@ class FlockRecordResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\DatePicker::make('record_date')
-                    ->required()
-                    ->unique(ignoreRecord: true),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\DatePicker::make('record_date')
+                            ->required()
+                            ->unique(ignoreRecord: true)
+                            ->columnSpan(2),
+
+                    ]),
                 Forms\Components\TextInput::make('ovulating_hens')
                     ->required()
                     ->numeric(),
@@ -33,7 +40,15 @@ class FlockRecordResource extends Resource
                 Forms\Components\TextInput::make('cock')
                     ->required()
                     ->numeric()
+                    ->default(0)
+                    ->label('Cocks'),
+                Forms\Components\TextInput::make('chicklets')
+                    ->required()
+                    ->numeric()
                     ->default(0),
+                Forms\Components\Textarea::make('notes')
+                    ->maxLength(65535)
+                    ->columnSpanFull(),
             ]);
     }
 
@@ -52,6 +67,13 @@ class FlockRecordResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cock')
                     ->numeric()
+                    ->sortable()
+                    ->label('Cocks'),
+                Tables\Columns\TextColumn::make('chicklets')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('notes')
+                    ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
             ])
             ->defaultSort('record_date', 'desc')
