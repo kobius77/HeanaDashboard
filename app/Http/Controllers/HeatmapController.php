@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\DailyLog;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class HeatmapController extends Controller
@@ -14,8 +13,7 @@ class HeatmapController extends Controller
     public function index(): View
     {
         $query = DailyLog::query()
-            ->select(['log_date', 'egg_count'])
-            ->where('egg_count', '>', 0)
+            ->select(['log_date', 'egg_count', 'notes', 'weather_temp_c', 'sun_hours'])
             ->orderBy('log_date');
 
         $firstLog = (clone $query)->first();
@@ -25,19 +23,68 @@ class HeatmapController extends Controller
             ->map(fn ($log) => [
                 'date' => $log->log_date,
                 'value' => (int) $log->egg_count,
+                'notes' => $log->notes,
+                'temp' => $log->weather_temp_c !== null ? (float) $log->weather_temp_c : null,
+                'sun' => $log->sun_hours !== null ? (float) $log->sun_hours : null,
             ])
             ->toArray();
 
-        $startDate = $firstLog ? \Carbon\Carbon::parse($firstLog->log_date)->startOfMonth() : now()->startOfYear();
-        $endDate = $lastLog ? \Carbon\Carbon::parse($lastLog->log_date)->endOfMonth() : now();
-        
-        // Calculate range in months
-        $range = $startDate->diffInMonths($endDate) + 1;
+        $yearlyStats = collect($data)
+
+            ->groupBy(fn ($d) => \Carbon\Carbon::parse($d['date'])->year)
+
+            ->map(fn ($year) => [
+
+                'eggs' => $year->sum('value'),
+
+                'sun' => $year->filter(fn ($d) => $d['sun'] !== null)->count() > 0
+
+                    ? round($year->filter(fn ($d) => $d['sun'] !== null)->avg('sun'), 1)
+
+                    : 0.0,
+
+            ])
+
+            ->toArray();
+
+        $startDate = \Carbon\Carbon::parse('2025-10-01')->startOfDay();
+
+        $endDate = now()->endOfMonth();
+
+        $calendarRows = [];
+
+        $current = $startDate->copy();
+
+        while ($current->lte($endDate)) {
+
+            $quarterEnd = $current->copy()->endOfQuarter();
+
+            $calendarRows[] = [
+
+                'start' => $current->format('Y-m-d'),
+
+                'range' => 3,
+
+                'label' => $current->year.' ('.$current->format('M').' - '.$quarterEnd->format('M').')',
+
+                'year' => $current->year,
+
+            ];
+
+            // Move to start of next quarter
+
+            $current->addMonths(3)->startOfQuarter();
+
+        }
 
         return view('heatmap', [
+
             'heatmapData' => $data,
-            'startDate' => $startDate->toDateString(),
-            'range' => $range,
+
+            'calendarRows' => $calendarRows,
+
+            'yearlyStats' => $yearlyStats,
+
         ]);
     }
 }

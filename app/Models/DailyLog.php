@@ -17,13 +17,6 @@ class DailyLog extends Model
     protected $table = 'daily_logs';
 
     /**
-     * The name of the "updated at" column.
-     * Your schema has `created_at` but not `updated_at`.
-     *
-     * @var string|null
-     */
-
-    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -33,7 +26,8 @@ class DailyLog extends Model
         'egg_count',
         'notes',
         'weather_temp_c',
-        'created_by',
+        'sun_hours',
+        'reported_by',
     ];
 
     /**
@@ -45,8 +39,8 @@ class DailyLog extends Model
         'log_date' => 'date',
     ];
 
-    public function createdBy()
+    public function reportedBy()
     {
-        return $this->belongsTo(User::class, 'created_by');
+        return $this->belongsTo(User::class, 'reported_by');
     }
 }

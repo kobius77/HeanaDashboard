@@ -16,17 +16,43 @@ class DailyLogResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getModelLabel(): string
+    {
+        return __('Daily Log');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Daily Logs');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\DatePicker::make('log_date')
+                    ->label(__('Log Date'))
                     ->required()
                     ->unique(ignoreRecord: true),
                 Forms\Components\TextInput::make('egg_count')
+                    ->label(__('Egg Count'))
                     ->numeric()
                     ->nullable(),
+                Forms\Components\TextInput::make('weather_temp_c')
+                    ->numeric()
+                    ->label(__('Temperature (°C)'))
+                    ->nullable(),
+                Forms\Components\TextInput::make('sun_hours')
+                    ->numeric()
+                    ->label(__('Sun Hours'))
+                    ->nullable(),
+                Forms\Components\Select::make('reported_by')
+                    ->label(__('Reported By'))
+                    ->relationship('reportedBy', 'name')
+                    ->searchable()
+                    ->preload(),
                 Forms\Components\Textarea::make('notes')
+                    ->label(__('Notes'))
                     ->columnSpanFull(),
             ]);
     }
@@ -36,14 +62,29 @@ class DailyLogResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('log_date')
+                    ->label(__('Log Date'))
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('egg_count')
+                    ->label(__('Egg Count'))
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('weather_temp_c')
+                    ->numeric()
+                    ->label(__('Temp (°C)'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('sun_hours')
+                    ->numeric()
+                    ->label(__('Sun (h)'))
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('reportedBy.name')
+                    ->label(__('Reported By'))
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('notes')
+                    ->label(__('Notes'))
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->paginated(false)
             ->defaultSort('log_date', 'desc')
             ->filters([
                 //

@@ -3,13 +3,16 @@
 namespace App\Filament\Widgets;
 
 use App\Models\DailyLog;
-use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 
 class MonthlyComparisonChart extends ChartWidget
 {
-    protected static ?string $heading = 'Cumulative Performance: This Month vs. Last Month';
-    protected int | string | array $columnSpan = 'full';
+    protected int|string|array $columnSpan = 'full';
+
+    public function getHeading(): ?string
+    {
+        return __('Cumulative Performance: This Month vs. Last Month');
+    }
 
     protected function getData(): array
     {
@@ -45,7 +48,7 @@ class MonthlyComparisonChart extends ChartWidget
             }
 
             // Last month
-            if($day <= $lastMonthStart->daysInMonth) {
+            if ($day <= $lastMonthStart->daysInMonth) {
                 $lastMonthDate = $lastMonthStart->copy()->day($day);
                 $currentLastMonthSum += $lastMonthData->get($lastMonthDate->toDateString(), 0);
                 $lastMonthCumulative[] = $currentLastMonthSum;
@@ -54,8 +57,8 @@ class MonthlyComparisonChart extends ChartWidget
 
         return [
             'datasets' => [
-                ['label' => 'This Month', 'data' => $thisMonthCumulative, 'borderColor' => '#3b82f6'],
-                ['label' => 'Last Month', 'data' => $lastMonthCumulative, 'borderColor' => '#6b7280'],
+                ['label' => __('This Month'), 'data' => $thisMonthCumulative, 'borderColor' => '#3b82f6'],
+                ['label' => __('Last Month'), 'data' => $lastMonthCumulative, 'borderColor' => '#6b7280'],
             ],
             'labels' => $labels,
         ];

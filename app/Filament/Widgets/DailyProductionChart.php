@@ -9,20 +9,23 @@ use Filament\Widgets\ChartWidget;
 
 class DailyProductionChart extends ChartWidget
 {
-    protected static ?string $heading = 'Daily Egg Production';
-
     public ?string $filter = '30';
 
     protected int|string|array $columnSpan = 'full';
 
     protected static ?string $maxHeight = '300px';
 
+    public function getHeading(): ?string
+    {
+        return __('Daily Egg Production');
+    }
+
     protected function getFilters(): ?array
     {
         return [
-            '30' => 'Last 30 days',
-            '60' => 'Last 60 days',
-            '90' => 'Last 90 days',
+            '30' => __('Last 30 days'),
+            '60' => __('Last 60 days'),
+            '90' => __('Last 90 days'),
         ];
     }
 
@@ -37,14 +40,14 @@ class DailyProductionChart extends ChartWidget
         return [
             'datasets' => [
                 [
-                    'label' => 'Eggs Laid',
+                    'label' => __('Eggs Laid'),
                     'data' => $data->map(fn ($log) => $log->egg_count),
                     'backgroundColor' => '#FFAE42',
                     'borderColor' => '#FFAE42', // Set borderColor to match backgroundColor for a solid fill
                     'borderWidth' => 1,
                 ],
                 [
-                    'label' => 'Average',
+                    'label' => __('Average'),
                     'data' => array_fill(0, $data->count(), round($data->avg('egg_count'), 2)),
                     'borderColor' => '#FF0000', // Red color for average line
                     'backgroundColor' => '#FF0000',

@@ -32,25 +32,25 @@ class EggStatsOverview extends BaseWidget
 
         if ($todayCount === null) {
             $yesterdayCount = DailyLog::whereDate('log_date', Carbon::yesterday())->value('egg_count') ?? 0;
-            $stats[] = Stat::make('Yesterday\'s Eggs', $yesterdayCount)
-                ->description('Still ovulating today..');
+            $stats[] = Stat::make(__('Yesterday\'s Eggs'), $yesterdayCount)
+                ->description(__('Still ovulating today..'));
         } else {
             $yesterdayCount = DailyLog::whereDate('log_date', Carbon::yesterday())->value('egg_count') ?? 0;
             $comparison = $todayCount - $yesterdayCount;
             $comparisonColor = $comparison >= 0 ? 'success' : 'danger';
 
-            $stats[] = Stat::make('Today\'s Eggs', $todayCount)
-                ->description(sprintf('%+d vs yesterday', $comparison))
+            $stats[] = Stat::make(__('Today\'s Eggs'), $todayCount)
+                ->description(sprintf('%+d %s', $comparison, __('vs yesterday')))
                 ->descriptionIcon('heroicon-m-arrow-trending-'.($comparison >= 0 ? 'up' : 'down'))
                 ->color($comparisonColor);
         }
 
-        $stats[] = Stat::make('7-Day Average', number_format($sevenDayAverage, 2))
-            ->description('Eggs per day over the last week');
-        $stats[] = Stat::make('Flock Efficiency', number_format($efficiency, 1).'%')
-            ->description('Based on '.$flockSize.' laying hens');
-        $stats[] = Stat::make('Laying Hens', $flockSize)
-            ->description('Currently active')
+        $stats[] = Stat::make(__('7-Day Average'), number_format($sevenDayAverage, 2))
+            ->description(__('Eggs per day over the last week'));
+        $stats[] = Stat::make(__('Flock Efficiency'), number_format($efficiency, 1).'%')
+            ->description(__('Based on :count laying hens', ['count' => $flockSize]));
+        $stats[] = Stat::make(__('Laying Hens'), $flockSize)
+            ->description(__('Currently active'))
             ->color('success');
 
         return $stats;

@@ -2,67 +2,35 @@
 
 > **"Heana"** [Austrian dialect]: *Hens / Chickens.*
 
-Welcome to the mission-control center for our flock of ~10 ladies. Because why just *collect* eggs when you can **visualize** them in high-definition charts?
+A mission-control center for our flock. Tracks daily egg production, flock composition, and environmental factors.
 
-## 🚧 WIP Disclaimer
-**Current Status:** *Broken shells everywhere.*
-This project is actively being developed. Features may appear, disappear, or moult without warning. The code is currently cleaner than the coop, but that's a low bar.
+## ✨ Features
 
----
+*   **Production Heatmap**: Visual overview of egg laying performance and sun hours.
+*   **Localization 🌍**: Fully translated in **English** and **German** (auto-detection enabled).
+*   **Admin Panel**: Powered by [FilamentPHP](https://filamentphp.com/).
+    *   **Daily Logs**: Track eggs, temperature, and sun hours.
+    *   **Flock Records**: Manage population (Hens, Cocks, Chicklets).
+    *   **Charts**: Daily production bars, monthly comparisons.
+*   **Integration Ready**:
+    *   **Webhook API**: Ingest data (e.g., from Home Assistant) via `POST /webhook/ingest`.
 
-## ⚙️ The Architecture (The "Egg-Traction" Pipeline)
+## 🛠 Tech Stack
 
-We moved away from "Excel Engineering" to a proper stack. Here is the data journey:
+*   **Framework**: Laravel 12
+*   **UI**: Filament v3, Livewire, Tailwind CSS
+*   **Database**: MySQL
+*   **Charts**: Cal-Heatmap, Chart.js
 
-1.  **The Input:** I walk into the coop, collect eggs, and send a single number (e.g., "8") to a **Telegram Bot**.
-2.  **The Middleware:** **n8n** catches the webhook, sanitizes the input, and executes an SQL `INSERT`.
-3.  **The Vault:** Data is stored in a local **MySQL/MariaDB** database (RIP Google Sheets).
-4.  **The Visuals:** **Laravel + FilamentPHP** read the data and render beautiful, reactive dashboards.
+## 🚀 Setup
 
-## 💻 The Tech Stack
-
-* **Core:** [Laravel 11](https://laravel.com/) (PHP 8.3)
-* **UI/Dashboard:** [FilamentPHP v3](https://filamentphp.com/) (The real MVP here)
-* **Database:** MySQL
-* **Environment:** WSL / Ubuntu 24.04
-
-## 🚀 Getting Started (Dev)
-
-If you want to run your own chicken analytics platform:
-
-1.  **Clone the repo:**
+1.  Clone & Install:
     ```bash
-    git clone [https://github.com/kobius77/HeanaDashboard.git](https://github.com/kobius77/HeanaDashboard.git)
-    cd HeanaDashboard
-    ```
-
-2.  **Install Dependencies:**
-    ```bash
-    # Note: We ignore security audits because we live on the edge (and dev tools are annoying)
-    composer install --no-audit
+    composer install
     npm install && npm run build
     ```
-
-3.  **Setup Environment:**
-    ```bash
-    cp .env.example .env
-    php artisan key:generate
-    # Configure your DB credentials in .env
-    ```
-
-4.  **Migrate & Serve:**
-    ```bash
-    php artisan migrate
-    php artisan serve
-    ```
-
-## 🔮 Roadmap / Wishlist
-
-- [x] Basic daily logging
-- [ ] **Weather Overlay:** correlate production drops with rainy days.
-- [ ] **Feed Tracker:** Calculate the exact Cost-Per-Egg (CPE) so I can feel guilty about the expensive organic feed.
-- [ ] **Comparison Views:** "This week vs. same week last year."
+2.  Configure `.env` (Database & `WEBHOOK_SECRET`).
+3.  Migrate: `php artisan migrate`.
 
 ---
-
 *Made with ❤️ and 🌽 in Lower Austria.*

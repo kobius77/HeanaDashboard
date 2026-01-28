@@ -23,6 +23,7 @@ class PublicPanelProvider extends PanelProvider
         return $panel
             ->id('public')
             ->path('/')
+            ->favicon(asset('favicon.svg'))
             ->brandName(config('app.name'))
             ->colors([
                 'primary' => Color::Amber,

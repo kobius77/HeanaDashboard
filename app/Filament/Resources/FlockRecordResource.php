@@ -6,8 +6,6 @@ use App\Filament\Resources\FlockRecordResource\Pages;
 use App\Models\FlockRecord;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -18,6 +16,16 @@ class FlockRecordResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    public static function getModelLabel(): string
+    {
+        return __('Flock Record');
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return __('Flock Records');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -25,15 +33,18 @@ class FlockRecordResource extends Resource
                 Forms\Components\Grid::make(3)
                     ->schema([
                         Forms\Components\DatePicker::make('record_date')
+                            ->label(__('Record Date'))
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->columnSpan(2),
 
                     ]),
                 Forms\Components\TextInput::make('ovulating_hens')
+                    ->label(__('Ovulating Hens'))
                     ->required()
                     ->numeric(),
                 Forms\Components\TextInput::make('henopaused_hens')
+                    ->label(__('Henopaused Hens'))
                     ->required()
                     ->numeric()
                     ->default(0),
@@ -41,12 +52,14 @@ class FlockRecordResource extends Resource
                     ->required()
                     ->numeric()
                     ->default(0)
-                    ->label('Cocks'),
+                    ->label(__('Cocks')),
                 Forms\Components\TextInput::make('chicklets')
+                    ->label(__('Chicklets'))
                     ->required()
                     ->numeric()
                     ->default(0),
                 Forms\Components\Textarea::make('notes')
+                    ->label(__('Notes'))
                     ->maxLength(65535)
                     ->columnSpanFull(),
             ]);
@@ -57,22 +70,27 @@ class FlockRecordResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('record_date')
+                    ->label(__('Record Date'))
                     ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('ovulating_hens')
+                    ->label(__('Ovulating Hens'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('henopaused_hens')
+                    ->label(__('Henopaused Hens'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cock')
                     ->numeric()
                     ->sortable()
-                    ->label('Cocks'),
+                    ->label(__('Cocks')),
                 Tables\Columns\TextColumn::make('chicklets')
+                    ->label(__('Chicklets'))
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('notes')
+                    ->label(__('Notes'))
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
             ])
