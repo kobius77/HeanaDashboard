@@ -26,7 +26,7 @@ class ListDailyLogs extends ListRecords
         $tabs = [];
 
         $months = DailyLog::query()
-            ->selectRaw('YEAR(log_date) as year, MONTH(log_date) as month')
+            ->selectYearMonth()
             ->distinct()
             ->orderByDesc('year')
             ->orderByDesc('month')

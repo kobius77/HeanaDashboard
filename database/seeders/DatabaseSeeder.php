@@ -15,11 +15,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Check if user exists before creating to avoid production errors
+        if (! User::where('email', 'markus@photing.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Markus',
+                'email' => 'markus@photing.com',
+                'password' => Hash::make('asdfasdf'),
+            ]);
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Only seed logs if table is empty (prevent duplicating logs in production)
+        if (\App\Models\DailyLog::count() === 0) {
+            $startDate = now()->subDays(50);
+            foreach (range(0, 49) as $i) {
+                \App\Models\DailyLog::factory()->create([
+                    'log_date' => $startDate->copy()->addDays($i)->format('Y-m-d'),
+                ]);
+            }
+        }
     }
 }

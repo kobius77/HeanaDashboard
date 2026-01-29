@@ -14,11 +14,6 @@ class User extends Authenticatable implements FilamentUser
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return true;
-    }
-
     /**
      * The attributes that are mass assignable.
      *
@@ -28,7 +23,6 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
-        'locale',
     ];
 
     /**
@@ -52,5 +46,13 @@ class User extends Authenticatable implements FilamentUser
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // For local development or simple auth, return true.
+        // In production, you might want to restrict this.
+        // WARNING: This allows ANY registered user to access the admin panel.
+        return true;
     }
 }

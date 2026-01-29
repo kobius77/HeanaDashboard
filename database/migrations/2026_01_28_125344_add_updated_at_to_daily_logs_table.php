@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('daily_logs', function (Blueprint $table) {
-            $table->timestamp('updated_at')->nullable()->after('created_at');
-        });
+        // This migration is empty because the updated_at column already exists
+        // in the base table creation migration (via timestamps()).
+        // It was likely created in error and caused duplicates.
+
+        // Schema::table('daily_logs', function (Blueprint $table) {
+        //     $table->timestamp('updated_at')->nullable()->after('created_at');
+        // });
     }
 
     /**
