@@ -1,14 +1,14 @@
-# Heatmap Widget Removal Summary
+# HeanaDashboard TODO
 
-I have removed the heatmap widget and its references. However, I'm unable to remove the `cal-heatmap` package and rebuild the frontend assets due to permission errors in the `node_modules` and `public/build` directories.
+## Completed
+- [x] Apply "Sharp" theme (square corners) globally.
+- [x] Fix Dashboard layout alignment.
+- [x] Restore Amber button colors in Admin Panel.
+- [x] Implement General Settings model/page.
+- [x] Configure Playwright for headless screenshots.
+- [x] Add Heatmap screenshot to README.md.
+- [x] Secure sensitive local memory in .gitignore.
 
-This means the old heatmap assets and the `cal-heatmap` package are still there, but they won't be used. 
-
-**To complete the removal, you will need to manually run the following commands after fixing the file permissions:**
-
-1.  `npm uninstall cal-heatmap @cal-heatmap/tooltip`
-2.  `npm run build`
-
-For now, the heatmap widget is gone from the UI. 
-
-Let me know what you would like to do next.
+## Pending
+- [ ] Investigate permanent fix for `node_modules` permissions (EACCES) to allow standard plugin installation.
+- [ ] Expand localization for any new UI components.
