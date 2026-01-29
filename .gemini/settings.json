@@ -10,6 +10,17 @@
               "APP_ENV": "local"
             },
             "cwd": "/var/www/vhosts/oida.top/heana.oida.top"
-        }
+        },
+	"sequential-thinking": {
+      		"command": "npx",
+      		"args": [
+        		"-y",
+        		"@modelcontextprotocol/server-sequential-thinking"
+      		]
+   	},
+	"playwright": {
+      		"command": "npx",
+      		"args": ["-y", "@automatalabs/mcp-server-playwright"]
+    	}	
     }
 }

@@ -46,6 +46,31 @@ class AdminPanelProvider extends PanelProvider
                     ->url(fn () => route('language.switch', 'auto'))
                     ->icon('heroicon-o-computer-desktop'),
             ])
+            ->renderHook(
+                'panels::head.end',
+                fn () => new \Illuminate\Support\HtmlString('
+                    <style>
+                        :root, body, .fi-body {
+                            --radius-xs: 0rem !important;
+                            --radius-sm: 0rem !important;
+                            --radius: 0rem !important;
+                            --radius-md: 0rem !important;
+                            --radius-lg: 0rem !important;
+                            --radius-xl: 0rem !important;
+                            --radius-2xl: 0rem !important;
+                            --radius-3xl: 0rem !important;
+                            --radius-4xl: 0rem !important;
+                        }
+                        /* Enforce sharp corners on all elements */
+                        * { border-radius: 0 !important; }
+                        
+                        /* Exceptions for elements that MUST be round (like radio buttons or status dots) */
+                        input[type="radio"], .rounded-full {
+                            border-radius: 9999px !important;
+                        }
+                    </style>
+                ')
+            )
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([

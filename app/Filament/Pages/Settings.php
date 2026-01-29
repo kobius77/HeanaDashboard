@@ -2,9 +2,11 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\GeneralSetting;
 use App\Models\WidgetSetting;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -28,13 +30,26 @@ class Settings extends Page implements HasForms
     public function mount(): void
     {
         $publishedWidgets = WidgetSetting::where('is_published', true)->pluck('widget_class')->all();
-        $this->form->fill(['published_widgets' => $publishedWidgets]);
+        $publicDashboardRoute = GeneralSetting::where('key', 'public_dashboard_route')->value('value') ?? 'dashboard';
+
+        $this->form->fill([
+            'published_widgets' => $publishedWidgets,
+            'public_dashboard_route' => $publicDashboardRoute,
+        ]);
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
+                Section::make('General Settings')
+                    ->schema([
+                        TextInput::make('public_dashboard_route')
+                            ->label('Public Dashboard Route')
+                            ->helperText('The route path for the public dashboard (e.g., "dashboard" or "/"). If set to "/", it will replace the heatmap.')
+                            ->required()
+                            ->default('dashboard'),
+                    ]),
                 Section::make('Public Dashboard Widgets')
                     ->description('Select the widgets you want to display on the public-facing dashboard.')
                     ->schema([
@@ -50,6 +65,12 @@ class Settings extends Page implements HasForms
     public function save(): void
     {
         $data = $this->form->getState();
+
+        // Save public dashboard route
+        GeneralSetting::updateOrCreate(
+            ['key' => 'public_dashboard_route'],
+            ['value' => $data['public_dashboard_route']]
+        );
 
         // Reset all widgets to not published
         WidgetSetting::query()->update(['is_published' => false]);

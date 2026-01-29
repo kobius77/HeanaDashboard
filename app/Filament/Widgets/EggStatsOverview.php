@@ -10,6 +10,10 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class EggStatsOverview extends BaseWidget
 {
+    /**
+     * Used for Tailwind discovery:
+     * grid-cols-2 md:grid-cols-4
+     */
     protected static ?int $sort = -1;
 
     protected int|string|array $columns = [
@@ -49,9 +53,36 @@ class EggStatsOverview extends BaseWidget
             ->description(__('Eggs per day over the last week'));
         $stats[] = Stat::make(__('Flock Efficiency'), number_format($efficiency, 1).'%')
             ->description(__('Based on :count laying hens', ['count' => $flockSize]));
-        $stats[] = Stat::make(__('Laying Hens'), $flockSize)
-            ->description(__('Currently active'))
-            ->color('success');
+            
+        // Flock Composition Stat with Animation
+        $flockStats = [
+            [
+                'label' => __('Laying Hens'),
+                'value' => $latestFlockRecord?->ovulating_hens ?? 0,
+                'color' => 'text-gray-950 dark:text-white',
+            ],
+            [
+                'label' => __('Henopaused'),
+                'value' => $latestFlockRecord?->henopaused_hens ?? 0,
+                'color' => 'text-gray-950 dark:text-white',
+            ],
+            [
+                'label' => __('Roosters'),
+                'value' => $latestFlockRecord?->cock ?? 0,
+                'color' => 'text-gray-950 dark:text-white',
+            ],
+            [
+                'label' => __('Chicks'),
+                'value' => $latestFlockRecord?->chicklets ?? 0,
+                'color' => 'text-gray-950 dark:text-white',
+            ],
+        ];
+
+        // Filter out zero values unless it's laying hens (primary) or all are zero
+        $flockStats = array_values(array_filter($flockStats, fn($stat) => $stat['value'] > 0 || $stat['label'] === __('Laying Hens')));
+
+        $stats[] = Stat::make('Flock Composition', '')
+            ->view('filament.widgets.flock-stat', ['stats' => $flockStats]);
 
         return $stats;
     }

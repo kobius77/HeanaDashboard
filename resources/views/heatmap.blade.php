@@ -61,6 +61,12 @@
                     <div id="legend" class="flex gap-1"></div>
                     <span>🥚🥚🥚</span>
                 </div>
+
+                <footer class="mt-12 flex justify-center gap-4 text-xs font-normal text-gray-400 border-t border-gray-100 pt-8 w-full">
+                    <a href="{{ route('public.dashboard') }}" class="hover:text-gray-600 transition-colors">{{ __('Public Dashboard') }}</a>
+                    <span class="text-gray-200">|</span>
+                    <a href="{{ route('filament.admin.pages.dashboard') }}" class="hover:text-gray-600 transition-colors">{{ __('Administration') }}</a>
+                </footer>
             </main>
         </div>
     </div>
