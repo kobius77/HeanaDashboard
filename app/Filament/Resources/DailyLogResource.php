@@ -46,11 +46,9 @@ class DailyLogResource extends Resource
                     ->numeric()
                     ->label(__('Sun Hours'))
                     ->nullable(),
-                Forms\Components\Select::make('reported_by')
+                Forms\Components\TextInput::make('reported_by')
                     ->label(__('Reported By'))
-                    ->relationship('reportedBy', 'name')
-                    ->searchable()
-                    ->preload(),
+                    ->maxLength(255),
                 Forms\Components\Textarea::make('notes')
                     ->label(__('Notes'))
                     ->columnSpanFull(),
@@ -77,7 +75,7 @@ class DailyLogResource extends Resource
                     ->numeric()
                     ->label(__('Sun (h)'))
                     ->sortable(),
-                Tables\Columns\TextColumn::make('reportedBy.name')
+                Tables\Columns\TextColumn::make('reported_by')
                     ->label(__('Reported By'))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('notes')

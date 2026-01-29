@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('daily_logs', function (Blueprint $table) {
-            $table->foreignId('reported_by')->nullable()->after('created_by')->constrained('users');
+            $table->string('reported_by')->nullable()->after('created_by');
         });
     }
 
@@ -22,7 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('daily_logs', function (Blueprint $table) {
-            $table->dropForeign(['reported_by']);
             $table->dropColumn('reported_by');
         });
     }

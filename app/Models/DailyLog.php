@@ -38,9 +38,4 @@ class DailyLog extends Model
     protected $casts = [
         'log_date' => 'date',
     ];
-
-    public function reportedBy()
-    {
-        return $this->belongsTo(User::class, 'reported_by');
-    }
 }
