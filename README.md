@@ -4,6 +4,8 @@
 
 A mission-control center for our flock. Tracks daily egg production, flock composition, and environmental factors.
 
+![Egg Production Heatmap](screenshots/heatmap.png)
+
 ## ✨ Features
 
 *   **Production Heatmap**: Visual overview of egg laying performance and sun hours.
