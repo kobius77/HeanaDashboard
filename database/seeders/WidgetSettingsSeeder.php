@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 class WidgetSettingsSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run database seeds.
      */
     public function run(): void
     {
