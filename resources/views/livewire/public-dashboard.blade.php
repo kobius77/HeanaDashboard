@@ -10,8 +10,16 @@
 
         <div class="space-y-4">
             @foreach ($widgets as $widget)
-                @livewire($widget->widget_class)
+                <div wire:key="widget-wrapper-{{ $widget->id }}">
+                    <livewire:dynamic-component :component="$widget->widget_class" :key="'widget-' . $widget->id" />
+                </div>
             @endforeach
+        </div>
+        
+        <div class="mt-4 flex items-center justify-between text-sm text-gray-500">
+             <a href="{{ route('filament.admin.pages.dashboard') }}" class="hover:text-gray-600 transition-colors">Administration</a>
+             <span class="text-gray-200">|</span>
+             <a href="{{ route('heatmap') }}" class="hover:text-gray-600 transition-colors">View Heatmap</a>
         </div>
     </div>
 </div>
