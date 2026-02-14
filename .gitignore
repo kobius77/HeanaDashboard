@@ -25,3 +25,9 @@ Thumbs.db
 
 GEMINI.md
 /database/database.sqlite
+# Laravel Boost & AI Tools
+/boost.json
+/mcp.json
+/CLAUDE.md
+/AGENTS.md
+/.cursor/
