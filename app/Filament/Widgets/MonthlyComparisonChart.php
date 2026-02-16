@@ -21,11 +21,14 @@ class MonthlyComparisonChart extends ChartWidget
         $lastMonthEnd = now()->subMonthNoOverflow()->endOfMonth();
 
         // Get data for the relevant periods
-        $thisMonthData = DailyLog::where('log_date', '>=', $thisMonthStart)
+        $thisMonthData = DailyLog::where('log_date', '>=', $thisMonthStart->toDateString())
             ->orderBy('log_date')
             ->pluck('egg_count', 'log_date');
 
-        $lastMonthData = DailyLog::whereBetween('log_date', [$lastMonthStart, $lastMonthEnd])
+        $lastMonthData = DailyLog::whereBetween('log_date', [
+            $lastMonthStart->toDateString(),
+            $lastMonthEnd->toDateString(),
+        ])
             ->orderBy('log_date')
             ->pluck('egg_count', 'log_date');
 
