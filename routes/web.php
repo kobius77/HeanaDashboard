@@ -13,8 +13,8 @@ if (Schema::hasTable('general_settings')) {
 }
 
 // Ensure route starts with / if not root
-if ($dashboardRoute !== '/' && !str_starts_with($dashboardRoute, '/')) {
-    $dashboardRoute = '/' . $dashboardRoute;
+if ($dashboardRoute !== '/' && ! str_starts_with($dashboardRoute, '/')) {
+    $dashboardRoute = '/'.$dashboardRoute;
 }
 
 if ($dashboardRoute === '/') {
@@ -25,6 +25,9 @@ if ($dashboardRoute === '/') {
     Route::get($dashboardRoute, PublicDashboard::class)->name('public.dashboard');
 }
 
-Route::get('/lang/{locale}', [App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
+Route::middleware('web')->group(function () {
+    Route::get('/lang/{locale}', [App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
+});
 
 Route::post('/webhook/ingest', [App\Http\Controllers\WebhookController::class, 'ingest'])->name('webhook.ingest');
+Route::post('/webhook/financial', [App\Http\Controllers\WebhookController::class, 'ingestFinancial'])->name('webhook.financial');

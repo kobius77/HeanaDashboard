@@ -18,6 +18,6 @@ class LanguageController extends Controller
             session()->put('locale', $locale);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', 'Language set to: '.$locale);
     }
 }

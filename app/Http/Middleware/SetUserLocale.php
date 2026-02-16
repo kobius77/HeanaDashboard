@@ -51,6 +51,8 @@ class SetUserLocale
             App::setLocale($locale);
         }
 
+        session()->put('current_locale', App::getLocale());
+
         return $next($request);
     }
 }
