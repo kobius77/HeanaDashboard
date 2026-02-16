@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->validateCsrfTokens(except: [
             'webhook/ingest',
+            'webhook/financial',
         ]);
         $middleware->web(append: [
             \App\Http\Middleware\SetUserLocale::class,
