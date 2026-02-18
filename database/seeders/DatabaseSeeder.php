@@ -27,8 +27,8 @@ class DatabaseSeeder extends Seeder
 
         // Only seed logs if table is empty (prevent duplicating logs in production)
         if (\App\Models\DailyLog::count() === 0) {
-            $startDate = now()->subDays(50);
-            foreach (range(0, 49) as $i) {
+            $startDate = \Carbon\Carbon::createFromDate(2025, 10, 1);
+            foreach (range(0, 139) as $i) {  // Oct 1, 2025 to Feb 17, 2026 = ~140 days
                 \App\Models\DailyLog::factory()->create([
                     'log_date' => $startDate->copy()->addDays($i)->format('Y-m-d'),
                 ]);

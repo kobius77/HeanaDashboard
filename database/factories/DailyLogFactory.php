@@ -18,7 +18,7 @@ class DailyLogFactory extends Factory
     {
         return [
             'log_date' => $this->faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
-            'egg_count' => $this->faker->numberBetween(0, 12),
+            'egg_count' => $this->faker->numberBetween(0, 5),
             'notes' => $this->faker->optional()->sentence,
         ];
     }
